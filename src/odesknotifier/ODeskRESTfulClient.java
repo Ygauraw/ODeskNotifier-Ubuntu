@@ -8,9 +8,11 @@ package odesknotifier;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -40,19 +42,19 @@ public class ODeskRESTfulClient {
         this.subcategories = new HashSet<>(subcategory);
     }
     
-    private URL buildURL() throws MalformedURLException {
+    private URL buildURL() throws MalformedURLException, UnsupportedEncodingException {
         StringBuilder url = new StringBuilder(baseURL);
-        url.append(this.responseFormat.toString());
+        url.append(this.responseFormat.toString().toLowerCase());
         url.append("?");
         if(this.category != null) {
             url.append("c1=");
-            url.append(category);
+            url.append(URLEncoder.encode(category, "UTF-8"));
             
             if(this.subcategories != null) {
                 url.append("&");
                 
                 for (String subcategory : this.subcategories) {
-                    url.append("c2[]=" + subcategory + "&");
+                    url.append("c2[]=").append(URLEncoder.encode(subcategory, "UTF-8")).append("&");
                 }
             }
         }
