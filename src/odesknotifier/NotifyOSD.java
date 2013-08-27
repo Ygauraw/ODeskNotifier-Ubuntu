@@ -15,9 +15,9 @@ public class NotifyOSD {
     private Integer expire = 10000;
     private String image = "";
     
-    NotifyOSD() {}
+    public NotifyOSD() {}
     
-    NotifyOSD(String image) {
+    public NotifyOSD(String image) {
         this.image = image;
     }
     public String getCommand() {
