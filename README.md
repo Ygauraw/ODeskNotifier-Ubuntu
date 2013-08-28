@@ -1,4 +1,4 @@
 ODeskNotifier-Ubuntu
 ====================
 
-oDesk job stream notification using NotifyOSD
+oDesk jobs notifier using NotifyOSD
