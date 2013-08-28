@@ -48,6 +48,7 @@ public class ODeskNotifier extends TimerTask {
         } catch (Exception ex) {
             Logger.getLogger(ODeskNotifier.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         new Timer().scheduleAtFixedRate(oDeskNotifier, 0, 60000);
     }
     
@@ -76,8 +77,10 @@ public class ODeskNotifier extends TimerTask {
         } catch (SAXException ex) {
             Logger.getLogger(ODeskNotifier.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            this.notification.runNotification("Sys:> IOException: " + ex.getMessage());
             Logger.getLogger(ODeskNotifier.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
+            this.notification.runNotification("Sys:> Exception: " + ex.getMessage());
             Logger.getLogger(ODeskNotifier.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -103,5 +106,8 @@ public class ODeskNotifier extends TimerTask {
         
         //Setup jobExtractor
         this.jobExtractor = new JobExtractor(this.client.getContent());
+        
+        //Tell user that the program's running now
+        this.notification.runNotification("Sys:> Running...");
     }
 }

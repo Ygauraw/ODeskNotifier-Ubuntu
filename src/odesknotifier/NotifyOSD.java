@@ -5,6 +5,8 @@
 package odesknotifier;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,13 +46,17 @@ public class NotifyOSD {
         this.image = image;
     }
     
-    public void runNotification(String message) throws IOException {
+    public void runNotification(String message) {
         String[] cmd = { this.command,
                  "-t",
                  this.expire.toString(),
                  "-i",
                  this.image,
                  message};
-        Runtime.getRuntime().exec(cmd);
+        try {
+            Runtime.getRuntime().exec(cmd);
+        } catch (IOException ex) {
+            Logger.getLogger(NotifyOSD.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
