@@ -4,7 +4,10 @@
  */
 package odesknotifier;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.HashSet;
@@ -102,12 +105,29 @@ public class ODeskNotifier extends TimerTask {
         this.client.setSubcategory(subcategories);
         
         //Setup notifications
-        this.notification = new NotifyOSD("/usr/share/pixmaps/odeskteam.png");
+        InputStream inputStreamIcon = getClass().getResourceAsStream("/odesknotifier/odeskteam.png");
+        File icon = File.createTempFile("odesk", "icon");
+        FileOutputStream out = new FileOutputStream(icon);
+        byte[] buffer = new byte[5305];
+        int len;
+        
+        /* 
+         * The only purpose of this loop is to be
+         * able to change image file not touching 
+         * the code
+         */
+        
+        while ((len = inputStreamIcon.read(buffer)) != -1) {
+            out.write(buffer, 0, len);
+        }
+        
+        icon.deleteOnExit();
+        this.notification = new NotifyOSD(icon.getAbsolutePath());
         
         //Setup jobExtractor
         this.jobExtractor = new JobExtractor(this.client.getContent());
         
         //Tell user that the program's running now
         this.notification.runNotification("Sys:> Running...");
-    }
+    } 
 }
